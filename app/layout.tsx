@@ -1,16 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
-import Link from 'next/link';
 import Navbar from "./components/layout/Navbar";
+import VisitorTracker from "@/app/components/common/VisitorTracker";
+import VisitorCounterDisplay from "@/app/components/common/VisitorCounterDisplay";
+import Providers from "@/app/components/providers/Providers";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
   subsets: ["latin"],
 });
 
@@ -18,11 +14,6 @@ export const metadata: Metadata = {
   title: "두돌 - 이석재 신부와 함께하는 영성 여행",
   description: "이석재 토마스 데 아퀴나스 신부와 함께하는 깊이 있는 성경 묵상과 교회사 여행",
 };
-
-import VisitorTracker from "@/app/components/common/VisitorTracker";
-import VisitorCounterDisplay from "@/app/components/common/VisitorCounterDisplay";
-
-import Providers from "@/app/components/providers/Providers";
 
 export default function RootLayout({
   children,
@@ -32,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       {/* Changed bg-slate-50 to bg-[#fcfcfc] for a cleaner, warmer white. Text is slate-900 for high contrast. */}
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-[#fcfcfc] text-slate-900`}>
+      <body className={`${inter.className} antialiased min-h-screen flex flex-col bg-[#fcfcfc] text-slate-900`}>
         <Providers>
           <VisitorTracker />
           {/* Navigation */}
