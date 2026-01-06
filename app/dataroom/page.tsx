@@ -23,8 +23,8 @@ export default function DataRoom() {
             {/* Upload Area */}
             <div
                 className={clsx(
-                    "relative border-2 border-dashed rounded-3xl p-12 text-center transition-all duration-300 ease-in-out cursor-pointer",
-                    isDragOver ? "border-sky-500 bg-sky-50 scale-[1.01]" : "border-slate-300 hover:border-sky-400 hover:bg-slate-50/50"
+                    "relative border-2 border-dashed rounded-3xl p-16 text-center transition-all duration-300 ease-in-out cursor-pointer",
+                    isDragOver ? "border-slate-500 bg-slate-50 scale-[1.01]" : "border-slate-300 hover:border-slate-400 hover:bg-slate-50/50"
                 )}
                 onDragOver={(e) => { e.preventDefault(); setIsDragOver(true); }}
                 onDragLeave={() => setIsDragOver(false)}
@@ -34,14 +34,14 @@ export default function DataRoom() {
                     alert("Next.js 환경에서의 파일 업로드 데모입니다.");
                 }}
             >
-                <div className="w-16 h-16 bg-sky-100 text-sky-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Upload size={32} />
+                <div className="w-20 h-20 bg-slate-100 text-slate-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <Upload size={36} />
                 </div>
-                <h3 className="text-xl font-semibold text-slate-900">
+                <h3 className="text-2xl font-bold text-slate-900 mb-2">
                     여기에 파일을 드래그하세요
                 </h3>
-                <p className="text-slate-500 mt-2">
-                    또는 <span className="text-sky-600 font-medium hover:underline">파일 선택하기</span>
+                <p className="text-slate-600 text-lg">
+                    또는 <span className="text-slate-900 font-bold underline hover:text-slate-700">파일 선택하기</span>
                 </p>
             </div>
 
