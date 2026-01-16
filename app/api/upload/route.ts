@@ -25,8 +25,8 @@ export async function POST(request: Request) {
         // Create unique filename
         const timestamp = Date.now();
         const uniqueId = crypto.randomUUID().split('-')[0];
-        const safeName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
-        const filename = `${timestamp}-${uniqueId}-${safeName}`;
+        const extension = file.name ? file.name.split('.').pop() : (isImage ? 'png' : 'bin');
+        const filename = `${timestamp}-${uniqueId}.${extension}`;
 
         // Ensure upload directory exists
         const uploadDir = join(process.cwd(), 'public', 'uploads', subDir);
@@ -42,11 +42,8 @@ export async function POST(request: Request) {
         const fileUrl = `/uploads/${subDir}/${filename}`;
 
         return NextResponse.json({
-            message: 'File uploaded successfully',
-            url: fileUrl,
-            filename: filename,
-            originalName: file.name,
-            type: isImage ? 'IMAGE' : 'FILE'
+            uploaded: true,
+            url: fileUrl
         });
 
     } catch (error) {

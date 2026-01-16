@@ -9,7 +9,7 @@ const BoardWriteForm = dynamic(
 );
 
 interface PageProps {
-    params: Promise<{ category: string }>;
+    params: { category: string };
 }
 
 const CATEGORY_MAP: Record<string, string> = {
@@ -25,7 +25,7 @@ const CATEGORY_MAP: Record<string, string> = {
 };
 
 export default function BoardWritePage({ params }: PageProps) {
-    const { category } = use(params);
+    const { category } = params;
     const title = CATEGORY_MAP[category] || '게시판';
 
     return (

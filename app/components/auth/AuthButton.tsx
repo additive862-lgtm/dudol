@@ -2,7 +2,7 @@
 
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
-import { User, LogOut, Loader2 } from "lucide-react";
+import { User, LogOut, Loader2, LayoutDashboard } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { clsx } from 'clsx';
@@ -25,14 +25,14 @@ export default function AuthButton() {
             <div className="flex items-center gap-2 ml-4">
                 {/* 로그인 버튼 */}
                 <Link
-                    href="/api/auth/signin"
+                    href="/login"
                     className="px-4 py-2 text-sm font-bold text-slate-600 hover:text-[#001f3f] hover:bg-slate-50 rounded-md transition-colors"
                 >
                     로그인
                 </Link>
                 {/* 회원가입 버튼 */}
                 <Link
-                    href="/auth/signup"
+                    href="/register"
                     className="px-4 py-2 text-sm font-bold text-white bg-[#001f3f] hover:bg-[#003366] rounded-md transition-colors shadow-sm"
                 >
                     회원가입
@@ -73,15 +73,25 @@ export default function AuthButton() {
                         </div>
 
                         <Link
-                            href="/mypage"
+                            href="/profile"
                             className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-slate-600 hover:text-[#001f3f] hover:bg-slate-50 transition-colors"
                         >
                             <User size={16} />
-                            마이페이지
+                            내 정보
                         </Link>
 
+                        {(session.user as any)?.role === "ADMIN" && (
+                            <Link
+                                href="/admin"
+                                className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-blue-600 hover:bg-blue-50 transition-colors border-b border-slate-50"
+                            >
+                                <LayoutDashboard size={16} />
+                                관리자 대시보드
+                            </Link>
+                        )}
+
                         <button
-                            onClick={() => signOut()}
+                            onClick={() => signOut({ callbackUrl: "/" })}
                             className="w-full flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors"
                         >
                             <LogOut size={16} />

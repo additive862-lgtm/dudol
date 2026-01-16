@@ -9,11 +9,11 @@ import { User, Calendar, Eye, ArrowLeft, ChevronUp, ChevronDown } from 'lucide-r
 import Link from 'next/link';
 
 interface PageProps {
-    params: Promise<{ category: string, id: string }>;
+    params: { category: string, id: string };
 }
 
 export default async function BoardDetailPage({ params }: PageProps) {
-    const { category, id: rawId } = await params;
+    const { category, id: rawId } = params;
     const id = parseInt(rawId);
     const post = await getBoardPostDetail(id);
 

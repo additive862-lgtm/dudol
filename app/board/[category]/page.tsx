@@ -7,8 +7,8 @@ import { PenSquare } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
 interface PageProps {
-    params: Promise<{ category: string }>;
-    searchParams: Promise<{ page?: string }>;
+    params: { category: string };
+    searchParams: { page?: string };
 }
 
 const CATEGORY_MAP: Record<string, string> = {
@@ -24,8 +24,8 @@ const CATEGORY_MAP: Record<string, string> = {
 };
 
 export default async function BoardCategoryPage({ params, searchParams }: PageProps) {
-    const { category } = await params;
-    const { page } = await searchParams;
+    const { category } = params;
+    const { page } = searchParams;
 
     const currentPage = parseInt(page || '1');
     const pageSize = category === 'gallery' ? 9 : 10;

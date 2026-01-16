@@ -1,12 +1,17 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { auth } from '@/auth';
 
 export async function POST(request: Request) {
     try {
+        const session = await auth();
         const body = await request.json();
         const { title, content, author, attachments, category } = body;
 
-        if (!title || !author) {
+        const finalAuthor = author || session?.user?.name || 'Anonymous';
+        const finalAuthorId = session?.user?.id || null;
+
+        if (!title || !finalAuthor) {
             return NextResponse.json(
                 { error: 'Title and author are required' },
                 { status: 400 }
@@ -18,7 +23,8 @@ export async function POST(request: Request) {
             data: {
                 title,
                 content,
-                author,
+                author: finalAuthor,
+                authorId: finalAuthorId,
                 category: category || 'free',
                 attachments: {
                     create: attachments?.map((att: any) => ({

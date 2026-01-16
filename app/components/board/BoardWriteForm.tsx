@@ -1,9 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { BoardEditor } from './BoardEditor';
+import { useSession } from 'next-auth/react';
+import dynamic from 'next/dynamic';
 import { Paperclip, Plus, X, Globe, Save, RotateCcw } from 'lucide-react';
+
+const BoardEditor = dynamic(() => import('./BoardEditor').then(mod => mod.BoardEditor), {
+    ssr: false,
+    loading: () => <div className="min-h-[500px] bg-slate-50 animate-pulse rounded-[2rem]" />
+});
 
 interface FileAttachment {
     fileUrl: string;
@@ -18,6 +24,7 @@ interface ExternalLink {
 }
 
 export function BoardWriteForm({ category }: { category: string }) {
+    const { data: session, status } = useSession();
     const router = useRouter();
     const [title, setTitle] = useState('');
     const [author, setAuthor] = useState('');
@@ -27,6 +34,14 @@ export function BoardWriteForm({ category }: { category: string }) {
     const [linkUrl, setLinkUrl] = useState('');
     const [linkName, setLinkName] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    useEffect(() => {
+        if (session?.user?.name) {
+            setAuthor(session.user.name);
+        } else if (status === 'unauthenticated') {
+            setAuthor('');
+        }
+    }, [session, status]);
 
     const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
@@ -130,9 +145,10 @@ export function BoardWriteForm({ category }: { category: string }) {
                         type="text"
                         value={author}
                         onChange={(e) => setAuthor(e.target.value)}
-                        placeholder="작성자 명"
-                        className="w-full px-5 py-4 bg-white border border-slate-200 rounded-2xl text-lg font-bold focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all"
+                        placeholder={status === 'unauthenticated' ? '로그인이 필요합니다' : '작성자 명'}
+                        className={`w-full px-5 py-4 bg-white border border-slate-200 rounded-2xl text-lg font-bold focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all ${status === 'authenticated' ? 'bg-slate-50 cursor-not-allowed' : ''}`}
                         required
+                        readOnly={status === 'authenticated'}
                     />
                 </div>
             </div>
