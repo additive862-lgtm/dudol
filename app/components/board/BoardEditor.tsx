@@ -124,7 +124,7 @@ export function BoardEditor({ content, onChange }: BoardEditorProps) {
         <div className="ck-editor-container bg-white rounded-[2rem] overflow-hidden shadow-sm transition-all border border-slate-100">
             <style>{customEditorStyles}</style>
             <CKEditor
-                editor={ClassicEditor}
+                editor={ClassicEditor as any}
                 config={{
                     licenseKey: 'GPL', // Required for CKEditor 5 v42+
                     language: 'ko',
